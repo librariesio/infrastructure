@@ -19,3 +19,23 @@
 - name: More Configure the timezone
   become: yes
   file: src=/usr/share/zoneinfo/{{timezone}} dest=/etc/localtime state=link force=yes backup=yes
+
+- name: Create deployment user
+  user:
+    name: deploy
+    groups:
+      - sudo
+
+- name: Create deployment directories
+  become: yes
+  file:
+    path: /var/www/
+    state: directory
+    owner: deploy
+    group: deploy
+
+- name: Install Bundler
+  become: yes
+  gem:
+    name: bundler
+    user_install: no

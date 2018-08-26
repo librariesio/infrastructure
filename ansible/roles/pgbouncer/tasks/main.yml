@@ -1,4 +1,17 @@
 ---
+- name: Create defaults directory
+  file: path=/etc/default/ state=directory
+
+- name: "Upload {{item.name}} certificate"
+  become: yes
+  copy:
+    content: "{{item.contents}}"
+    mode: 'u=rw,g=r,o='
+    owner: postgres
+    group: postgres
+    dest: "/etc/pgbouncer/{{item.name}}.pem"
+  loop: "{{pg_cloud_sql_certs}}"
+
 - name: Copy pgbouncer start file
   template: src=pgbouncer dest=/etc/default/pgbouncer mode=0644 force=yes
   notify: restart pgbouncer
@@ -6,3 +19,8 @@
 - name: Copy pgbouncer config
   template: src=pgbouncer.ini dest=/etc/pgbouncer/pgbouncer.ini mode=0644 force=yes
   notify: restart pgbouncer
+
+- name: Create pgbouncer userlist
+  copy:
+    content: '"libraries" "{{vault_postgres_libraries_password}}"'
+    dest: /etc/pgbouncer/userlist.txt

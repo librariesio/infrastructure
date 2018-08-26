@@ -1,0 +1,13 @@
+plugin: gcp_compute
+zones: # populate inventory with instances in these regions
+  - us-east1-b
+  - us-east1-c
+  - us-east1-d
+projects:
+  - symbolic-yeti-208501
+scopes:
+  - https://www.googleapis.com/auth/compute
+service_account_file: libraries_service_account.json
+auth_kind: serviceaccount
+filters:
+  - labels.project = libraries

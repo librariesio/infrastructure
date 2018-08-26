@@ -1,0 +1,13 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+apache-libcloud = "*"
+google-auth = "*"
+requests = "*"
+ansible = "*"
+
+[dev-packages]
+

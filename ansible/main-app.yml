@@ -1,5 +1,8 @@
 ---
 - hosts: all
+  become: yes
+  vars_files:
+    - vault.yml
   vars:
     timezone: UTC
     sys_packages:
@@ -20,6 +23,9 @@
       - pkg-config
       - postgresql-client
       - libcurl4-openssl-dev
+      - libssl-dev
+      - ruby
+      - ruby-dev
     logrotate_scripts:
       - name: rails
         path: "/var/www/librariesio/current/log/*.log"
@@ -33,7 +39,6 @@
           - notifempty
   roles:
     - init
-    - calebwoods.brightbox_ruby
     - rails
     - pgbouncer
     - nickhammond.logrotate
