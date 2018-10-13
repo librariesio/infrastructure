@@ -1,10 +1,8 @@
-discovery.zen.ping.multicast.enabled: false
-discovery.zen.ping.unicast.hosts:
-  [
-  {% for host in groups['elasticsearch_master_nodes_internal'] %}
-    "{{ host }}:9300",
-  {% endfor %}
-  ]
-bootstrap.memory_lock: true
+discovery.type: gce
+cloud.gce.project_id: "{{gce_project_id}}"
+cloud.gce.zone:
+  - us-east1-b
+  - us-east1-c
+  - us-east1-d
 network.host: 0.0.0.0
 discovery.zen.minimum_master_nodes: 3

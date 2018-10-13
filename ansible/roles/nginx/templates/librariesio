@@ -1,44 +1,11 @@
-upstream librariesio-app-servers {
-  server 163.172.154.122:5000;
-  server 163.172.185.77:5000;
-  server 163.172.161.163:5000;
-  server 163.172.139.6:5000;
-}
-
 server {
   listen 80;
-  listen 443;
+  # listen 443;
   server_name *.libraries.io;
 
-  ssl        on;
-  ssl_certificate         /root/certs/librariesio_cert.pem;
-  ssl_certificate_key     /root/certs/librariesio_key.pem;
-
-  set_real_ip_from 103.21.244.0/22;
-  set_real_ip_from 103.22.200.0/22;
-  set_real_ip_from 103.31.4.0/22;
-  set_real_ip_from 104.16.0.0/12;
-  set_real_ip_from 108.162.192.0/18;
-  set_real_ip_from 131.0.72.0/22;
-  set_real_ip_from 141.101.64.0/18;
-  set_real_ip_from 162.158.0.0/15;
-  set_real_ip_from 172.64.0.0/13;
-  set_real_ip_from 173.245.48.0/20;
-  set_real_ip_from 188.114.96.0/20;
-  set_real_ip_from 190.93.240.0/20;
-  set_real_ip_from 197.234.240.0/22;
-  set_real_ip_from 198.41.128.0/17;
-  set_real_ip_from 199.27.128.0/21;
-  set_real_ip_from 2400:cb00::/32;
-  set_real_ip_from 2606:4700::/32;
-  set_real_ip_from 2803:f800::/32;
-  set_real_ip_from 2405:b500::/32;
-  set_real_ip_from 2405:8100::/32;
-  set_real_ip_from 2c0f:f248::/32;
-  set_real_ip_from 2a06:98c0::/29;
-
-  # use any of the following two
-  real_ip_header CF-Connecting-IP;
+  # ssl        on;
+  # ssl_certificate         /root/certs/librariesio_cert.pem;
+  # ssl_certificate_key     /root/certs/librariesio_key.pem;
 
   location / {
     proxy_set_header X-Real-IP $remote_addr;
@@ -55,6 +22,6 @@ server {
     proxy_temp_file_write_size 64k;
 
     proxy_redirect off;
-    proxy_pass  http://librariesio-app-servers;
+    proxy_pass http://unix:/var/www/librariesio/shared/tmp/sockets/puma.sock;
   }
 }

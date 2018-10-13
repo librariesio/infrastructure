@@ -1,5 +1,6 @@
+
 ---
-- hosts: memcached
+- hosts: all
   vars:
     timezone: UTC
     sys_packages:
@@ -8,7 +9,7 @@
       - logrotate
       - memcached
     logrotate_scripts:
-      - name: elasticsearch
+      - name: memcached
         path: "/var/log/memcached.log"
         options:
           - rotate 30
@@ -20,5 +21,5 @@
           - copytruncate
   roles:
     - init
-    - nickhammond.logrotate
-    - { role: geerlingguy.memcached, memcached_memory_limit: 15000, memcached_listen_ip: "0.0.0.0" }
+    - { role: geerlingguy.memcached, memcached_memory_limit: 15000, memcached_listen_ip: "0.0.0.0", sudo: 'yes' }
+    - { role: nickhammond.logrotate, sudo: 'yes'}

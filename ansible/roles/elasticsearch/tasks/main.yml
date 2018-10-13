@@ -27,11 +27,11 @@
   template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml mode=0644 force=yes
   notify: restart elasticsearch
 
-- name: Copy Systemd File for Instance
-  template: src=systemd/elasticsearch.j2 dest=/usr/lib/systemd/system/elasticsearch.service mode=0644 force=yes
-  notify:
-  - reload systemd configuration
-  - restart elasticsearch
+- name: Install GCE Discovery Plugin
+  become: 'yes'
+  command: /usr/share/elasticsearch/bin/plugin install cloud-gce
+  args:
+    creates: /usr/share/elasticsearch/plugins/cloud-gce
 
 - name: restart elasticsearch
   service: name=elasticsearch state=restarted enabled=yes

@@ -1,3 +1,29 @@
 ---
+- name: Create deployment user
+  user:
+    name: deploy
+    groups:
+      - sudo
+
+- name: Create deployment directories
+  become: yes
+  file:
+    path: /var/www/
+    state: directory
+    owner: deploy
+    group: deploy
+
+- name: Install Bundler
+  become: yes
+  gem:
+    name: bundler
+    user_install: no
+
+- name: Create service definition
+  become: yes
+  copy:
+    dest: "/etc/systemd/system/librariesio.service"
+    src: "librariesio.service"
+
 - name: Hourly restart cron job
   cron: name="restart libraries" minute="{{ 59 | random(seed=inventory_hostname) }}" job="/sbin/restart librariesio > /dev/null 2>&1"

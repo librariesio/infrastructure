@@ -1,0 +1,36 @@
+[Unit]
+Description=Puma HTTP Server
+After=network.target
+
+# Uncomment for socket activation (see below)
+# Requires=puma.socket
+
+[Service]
+# Foreground process (do not use --daemon in ExecStart or config.rb)
+Type=simple
+
+# Preferably configure a non-privileged user
+# User=
+
+# The path to the puma application root
+# Also replace the "<WD>" place holders below with this path.
+WorkingDirectory=/var/www/libraries/current/
+
+# Helpful for debugging socket activation, etc.
+# Environment=PUMA_DEBUG=1
+
+# The command to start Puma. This variant uses a binstub generated via
+# `bundle binstubs puma --path ./sbin` in the WorkingDirectory
+# (replace "<WD>" below)
+ExecStart=/usr/local/bin/bundle exec puma -C config/puma.rb
+
+# Variant: Use config file with `bind` directives instead:
+# ExecStart=<WD>/sbin/puma -C config.rb
+# Variant: Use `bundle exec --keep-file-descriptors puma` instead of binstub
+
+Restart=always
+
+Environment=RAILS_ENV=production
+
+[Install]
+WantedBy=multi-user.target

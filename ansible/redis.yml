@@ -1,8 +1,11 @@
 ---
-- hosts: redis
+- hosts: all
   vars:
     timezone: UTC
     sys_packages:
       - aptitude
+    redis_bind_interface: '0.0.0.0'
+  become: true
   roles:
     - init
+    - geerlingguy.redis

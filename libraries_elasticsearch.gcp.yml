@@ -11,3 +11,4 @@ service_account_file: libraries_service_account.json
 auth_kind: serviceaccount
 filters:
   - labels.project = libraries
+  - labels.role = elasticsearch

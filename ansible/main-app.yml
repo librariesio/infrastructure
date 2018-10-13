@@ -4,6 +4,7 @@
   vars_files:
     - vault.yml
   vars:
+    ansible_python_interpreter: /usr/bin/python3
     timezone: UTC
     sys_packages:
       - build-essential
@@ -26,6 +27,7 @@
       - libssl-dev
       - ruby
       - ruby-dev
+      - nginx
     logrotate_scripts:
       - name: rails
         path: "/var/www/librariesio/current/log/*.log"
@@ -39,6 +41,7 @@
           - notifempty
   roles:
     - init
+    - nginx
     - rails
     - pgbouncer
     - nickhammond.logrotate

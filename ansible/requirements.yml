@@ -1,4 +1,4 @@
-- src: calebwoods.brightbox_ruby
 - src: nickhammond.logrotate
 - src: geerlingguy.memcached
+- src: geerlingguy.redis
 - src: ANXS.postgresql

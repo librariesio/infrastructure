@@ -1,14 +1,17 @@
 ---
-- hosts: elasticsearch_master_nodes
+- hosts: all
+  vars_files:
+    - vault.yml
   vars:
     timezone: UTC
     sys_packages:
       - curl
       - aptitude
       - logrotate
+      - apt-transport-https
     logrotate_scripts:
       - name: elasticsearch
-        path: "/var/log/elasticsearch/*.log"
+        path: "/usr/share/elasticsearch/log/*.log"
         options:
           - daily
           - rotate 100
@@ -22,5 +25,5 @@
 
   roles:
     - init
-    - elasticsearch
-    - nickhammond.logrotate
+    - { role: elasticsearch, sudo: 'yes' }
+    - { role: nickhammond.logrotate, sudo: 'yes' }
