@@ -1,5 +1,8 @@
 ---
 - hosts: all
+  vars_files:
+    - vault.yml
+  become: yes
   vars:
     timezone: UTC
     sys_packages:
@@ -37,7 +40,6 @@
           - notifempty
   roles:
     - init
-    - calebwoods.brightbox_ruby
-    - cron
+    - {role: cron, become_user: 'deploy'}
     - pgbouncer
     - nickhammond.logrotate

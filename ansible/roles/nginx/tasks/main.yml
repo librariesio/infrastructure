@@ -6,3 +6,9 @@
 - name: Copy librariesio config file
   template: src=librariesio dest=/etc/nginx/sites-enabled/librariesio  mode=0644 force=yes
   notify: reload nginx
+
+- name: Remove default config file
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: reload nginx
