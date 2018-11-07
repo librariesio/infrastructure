@@ -5,7 +5,7 @@
     groups:
       - sudo
 
-- name: Add authorized for deployment user
+- name: Add authorized key for deployment user
   authorized_key:
     user: deploy
     state: present
