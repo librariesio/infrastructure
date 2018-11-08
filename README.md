@@ -6,6 +6,8 @@ All the code and configuration for managing the servers that https://libraries.i
 
 You'll need Ansible installed to run the playbooks, instructions here: http://docs.ansible.com/intro_installation.html
 
+You will also need to have the GCP python dependencies for communicating with the API to load the inventories. To do this simply run `pipenv install` in the top level of the project. You will need to have Pipenv installed for this to work: https://pipenv.readthedocs.io/en/latest/
+
 ## Install required roles from Ansible Galaxy
 
     ansible-galaxy install -r ansible/requirements.yml
@@ -16,25 +18,25 @@ You'll need Ansible installed to run the playbooks, instructions here: http://do
 
 For deploying [Libraries.io](https://github.com/librariesio/libraries.io)
 
-    ansible-playbook ansible/main-app.yml -i ansible/inventories/main-app
+    ansible-playbook -i libraries_app.gcp.yml ansible/main-app.yml --vault-password-file ~/.vault_pass.txt
 
 ### cron machine
 
 For running background jobs from [Libraries.io](https://github.com/librariesio/libraries.io)
 
-    ansible-playbook ansible/cron.yml -i ansible/inventories/cron
+    ansible-playbook -i libraries_cron.gcp.yml ansible/cron.yml --vault-password-file ~/.vault_pass.txt
 
 ### elasticsearch cluster
 
 For the elasticsearch cluster for [Libraries.io](https://github.com/librariesio/libraries.io)
 
-    ansible-playbook ansible/elasticsearch.yml -i ansible/inventories/elasticsearch
+    ansible-playbook -i libraries_elasticsearch.gcp.yml ansible/elasticsearch.yml --vault-password-file ~/.vault_pass.txt
 
 ### memcached machines
 
 For the memcached machines for [Libraries.io](https://github.com/librariesio/libraries.io)
 
-    ansible-playbook ansible/memcached.yml -i ansible/inventories/memcached
+    ansible-playbook -i libraries_memcached.gcp.yml ansible/memcached.yml --vault-password-file ~/.vault_pass.txt
 
 ### swift machine
 
@@ -48,33 +50,17 @@ For the cocoapods server for [Libraries.io](https://github.com/librariesio/libra
 
     ansible-playbook ansible/cocoapods.yml -i ansible/inventories/cocoapods
 
-### nginx machine
-
-For the nginx server for [Libraries.io](https://github.com/librariesio/libraries.io)
-
-    ansible-playbook ansible/nginx.yml -i ansible/inventories/nginx
-
 ### redis machine
 
 For the redis server for [Libraries.io](https://github.com/librariesio/libraries.io)
 
-    ansible-playbook ansible/redis.yml -i ansible/inventories/redis
+    ansible-playbook -i libraries_redis.gcp.yml ansible/redis.yml --vault-password-file ~/.vault_pass.txt
 
 ### pip machine
 
 For the pip server for [Libraries.io](https://github.com/librariesio/libraries.io)
 
     ansible-playbook ansible/pip.yml -i ansible/inventories/pip
-
-### postgresql machine
-
-For the postgresql servers for [Libraries.io](https://github.com/librariesio/libraries.io)
-
-    ansible-playbook ansible/postgres.yml -i ansible/inventories/postgres
-
-For setting up postgresql replica:
-
-    ansible-playbook ansible/playbooks/postgres_replica/tasks/init.yml -i ansible/inventories/postgres
 
 ### Note on Patches/Pull Requests
 
