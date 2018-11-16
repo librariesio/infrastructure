@@ -7,7 +7,6 @@ server {
   if ($http_x_forwarded_proto = "http") {
       return 301 https://$host$request_uri;
   }
-
   # ssl        on;
   # ssl_certificate         /root/certs/librariesio_cert.pem;
   # ssl_certificate_key     /root/certs/librariesio_key.pem;
