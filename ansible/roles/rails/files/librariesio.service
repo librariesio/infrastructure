@@ -7,14 +7,14 @@ After=network.target
 
 [Service]
 # Foreground process (do not use --daemon in ExecStart or config.rb)
-Type=simple
+Type=forking
 
 # Preferably configure a non-privileged user
-# User=
+User=deploy
 
 # The path to the puma application root
 # Also replace the "<WD>" place holders below with this path.
-WorkingDirectory=/var/www/libraries/current/
+WorkingDirectory=/var/www/librariesio/current
 
 # Helpful for debugging socket activation, etc.
 # Environment=PUMA_DEBUG=1
@@ -22,13 +22,16 @@ WorkingDirectory=/var/www/libraries/current/
 # The command to start Puma. This variant uses a binstub generated via
 # `bundle binstubs puma --path ./sbin` in the WorkingDirectory
 # (replace "<WD>" below)
-ExecStart=/usr/local/bin/bundle exec puma -C config/puma.rb
+ExecStart=/usr/local/bin/bundle exec puma -C /var/www/librariesio/shared/puma.rb --daemon
 
 # Variant: Use config file with `bind` directives instead:
 # ExecStart=<WD>/sbin/puma -C config.rb
 # Variant: Use `bundle exec --keep-file-descriptors puma` instead of binstub
+ExecStop=/usr/local/bin/bundle exec pumactl -S /var/www/librariesio/shared/tmp/pids/puma.state stop
 
-Restart=always
+Restart=no
+
+PIDFile=/var/www/librariesio/shared/tmp/pids/puma.pid
 
 Environment=RAILS_ENV=production
 
